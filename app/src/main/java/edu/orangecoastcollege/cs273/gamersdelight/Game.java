@@ -1,12 +1,16 @@
 package edu.orangecoastcollege.cs273.gamersdelight;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * The <code>Game</code> class maintains information about a video game,
  * including its id number, name, description, rating and image name.
  *
  * @author Michael Paulding
  */
-public class Game {
+public class Game implements Parcelable
+{
 
     //Member variables
     private long mId;
@@ -42,6 +46,43 @@ public class Game {
     public Game(String name, String description, float rating, String imageName) {
         this(-1, name, description, rating, imageName);
     }
+
+    // Parcelable interface uses a private constructor to instantiate objects
+    private Game(Parcel parcel)
+    {
+        // ORDER MATTERS !!!
+        mId = parcel.readLong();
+        mName = parcel.readString();
+        mDescription = parcel.readString();
+        mRating = parcel.readFloat();
+        mImageName = parcel.readString();
+    }
+
+    // In order to read a Parcel, we need a CREATOR (STATIC FIELD)
+    public static final Parcelable.Creator<Game> CREATOR = new Creator<Game>()
+    {
+        /**
+         * This method is used with Intents to create new Game objects.
+         * @param parcel The package with all information for the Game.
+         * @return The new Game object.
+         */
+        @Override
+        public Game createFromParcel(Parcel parcel)
+        {
+            return new Game(parcel);
+        }
+
+        /**
+         * This method is used with JSON to create an array of Game objects.
+         * @param size The size of the JSON array (how many Games)
+         * @return New array of Games
+         */
+        @Override
+        public Game[] newArray(int size)
+        {
+            return new Game[size];
+        }
+    };
 
     /**
      * Creates a new <code>Game</code> from its id, description and status.
@@ -155,5 +196,30 @@ public class Game {
                 ", Rating=" + mRating +
                 ", ImageName='" + mImageName + '\'' +
                 '}';
+    }
+
+    /**
+     * Returns 0 if it's a standard parcel, else if sending files need to return file descriptors.
+     * @return 0
+     */
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    /**
+     * Writes all the member variables of the class to the parcel. We specify the data types.
+     * @param parcel The package with details about the Game.
+     * @param i Any custom flags (with files)
+     */
+    @Override
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeLong(mId);
+        parcel.writeString(mName);
+        parcel.writeString(mDescription);
+        parcel.writeFloat(mRating);
+        parcel.writeString(mImageName);
     }
 }
