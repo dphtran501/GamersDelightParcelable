@@ -12,11 +12,27 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This activity displays information about a game. The information is specified by which list item
+ * was clicked in <code>GameListActivity</code>.
+ *
+ * @author Derek Tran
+ * @version 1.0
+ * @since November 9, 2017
+ */
+public class GameDetailsActivity extends AppCompatActivity
+{
 
-public class GameDetailsActivity extends AppCompatActivity {
-
+    /**
+     * Initializes <code>GameDetailsActivity</code> by inflating its UI.
+     *
+     * @param savedInstanceState Bundle containing the data it recently supplied in
+     *                           onSaveInstanceState(Bundle) if activity was reinitialized after
+     *                           being previously shut down. Otherwise it is null.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_details);
 
@@ -35,12 +51,12 @@ public class GameDetailsActivity extends AppCompatActivity {
         Game selectedGame = getIntent().getExtras().getParcelable("SelectedGame");
 
         AssetManager am = this.getAssets();
-        try {
+        try
+        {
             InputStream stream = am.open(selectedGame.getImageName());
             Drawable event = Drawable.createFromStream(stream, selectedGame.getName());
             gameDetailsImageView.setImageDrawable(event);
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Log.e("Gamers Delight", "Error loading " + selectedGame.getImageName(), ex);
         }

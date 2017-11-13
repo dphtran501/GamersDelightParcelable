@@ -14,15 +14,34 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class GameListActivity extends AppCompatActivity {
+/**
+ * This activity displays a list of <code>Game</code> objects from the app's database. The user can
+ * add a new <code>Game</code> entry into the database and also clear the database. Clicking on a
+ * list item in the ListView will launch <code>GameDetailsActivity</code> using information from
+ * the selected <code>Game</code>.
+ *
+ * @author Derek Tran
+ * @version 1.0
+ * @since November 9, 2017
+ */
+public class GameListActivity extends AppCompatActivity
+{
 
     private DBHelper db;
     private List<Game> gamesList;
     private GameListAdapter gamesListAdapter;
     private ListView gamesListView;
 
+    /**
+     * Initializes <code>GameListActivity</code> by inflating its UI.
+     *
+     * @param savedInstanceState Bundle containing the data it recently supplied in
+     *                           onSaveInstanceState(Bundle) if activity was reinitialized after
+     *                           being previously shut down. Otherwise it is null.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_list);
 
@@ -42,8 +61,16 @@ public class GameListActivity extends AppCompatActivity {
 
     }
 
-    public void viewGameDetails(View view) {
-        if (view instanceof LinearLayout) {
+    /**
+     * Launches <code>GameDetailsActivity</code> showing information about the <code>Game</code>
+     * object that was clicked in the ListView.
+     *
+     * @param v The view that called this method.
+     */
+    public void viewGameDetails(View view)
+    {
+        if (view instanceof LinearLayout)
+        {
             LinearLayout selectedLayout = (LinearLayout) view;
             Game selectedGame = (Game) selectedLayout.getTag();
             Log.i("Gamers Delight", selectedGame.toString());
@@ -59,6 +86,11 @@ public class GameListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds a <code>Game</code> object to the database and the ListView.
+     *
+     * @param v The view that called this method.
+     */
     public void addGame(View view)
     {
 
@@ -83,6 +115,11 @@ public class GameListActivity extends AppCompatActivity {
         ratingBar.setRating(0.0f);
     }
 
+    /**
+     * Deletes all <code>Game</code> objects in the database and ListView.
+     *
+     * @param view The view that called this method.
+     */
     public void clearAllGames(View view)
     {
         gamesList.clear();
